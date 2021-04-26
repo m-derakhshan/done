@@ -1,7 +1,5 @@
 package m.derakhshan.done
 
-import android.util.Log
-
 class Arrange {
 
     fun persianConverter(number: String?): String {

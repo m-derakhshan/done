@@ -20,6 +20,7 @@ import m.derakhshan.done.Utils
 import m.derakhshan.done.databinding.FragmentProfileBinding
 import javax.inject.Inject
 
+
 @AndroidEntryPoint
 class ProfileFragment : Fragment() {
 
@@ -108,7 +109,7 @@ class ProfileFragment : Fragment() {
             uri.putString("name", utils.userNameFamily)
             it.findNavController().navigate(R.id.action_profileFragment2_to_zoomImageFragment2, uri)
         }
-
+        binding.version.text = arrange.persianConcatenate(first = "نسخه ی ",end = "1.0")
 
     }
 
@@ -124,4 +125,6 @@ class ProfileFragment : Fragment() {
 
             }
         }
+
+
 }
