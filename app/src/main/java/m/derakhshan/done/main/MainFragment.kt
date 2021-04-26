@@ -137,7 +137,6 @@ class MainFragment : Fragment(),
         binding.clockLayout.addTask.setOnClickListener {
             isAddTaskOpen = true
             setAddTaskVisibility.value = true
-
             // refresh the task date and set it equals to today date
             taskDate = PersianCalendar()
         }
@@ -150,7 +149,6 @@ class MainFragment : Fragment(),
                             Calendar.getInstance().get(Calendar.HOUR_OF_DAY).toString() + ":" +
                                     Calendar.getInstance().get(Calendar.MINUTE).toString() + ":" +
                                     Calendar.getInstance().get(Calendar.SECOND).toString()
-
                         database.tasksDAO.add(
                             TasksModel(
                                 taskName = taskName,
@@ -164,13 +162,10 @@ class MainFragment : Fragment(),
                 }
                 binding.task.text.clear()
                 // refresh the task date and set it equals to today date
-                taskDate = PersianCalendar()
             }
         }
         binding.time.setOnClickListener {
-
             inputMethodManager?.hideSoftInputFromWindow(view.windowToken, 0)
-
             PrimeDatePicker.dialogWith(PersianCalendar())
                 .pickSingleDay { taskDate = it.toPersian() }
                 .initiallyPickedSingleDay(taskDate)
