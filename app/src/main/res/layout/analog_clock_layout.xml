@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/clock_root"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@drawable/background_rounded_top_corner"
+        android:elevation="10dp"
+        android:layoutDirection="rtl"
+        tools:context=".main.analog_clock.ClockFragment">
+
+        <m.derakhshan.done.canvas.AnalogClock
+            android:id="@+id/clock"
+            android:layout_width="match_parent"
+            android:layout_height="210dp"
+            app:hourColor="@color/blue"
+            app:layout_constraintTop_toTopOf="parent"
+            app:linesColor="@color/blue"
+            app:linesDefaultColor="@color/light_blue"
+            app:minuteColor="@color/blue"
+            app:size="140dp" />
+
+        <LinearLayout
+            android:id="@+id/add_task"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_margin="10dp"
+            android:background="@drawable/add_btn"
+            android:padding="8dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/clock">
+
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:src="@drawable/ic_baseline_add_24"
+                tools:ignore="ContentDescription" />
+        </LinearLayout>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

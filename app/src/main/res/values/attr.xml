@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <declare-styleable name="AnalogClock">
+        <attr name="backgroundColor" format="color" />
+        <attr name="size" format="dimension" />
+        <attr name="linesColor" format="color" />
+        <attr name="linesDefaultColor" format="color" />
+        <attr name="secondsColor" format="color" />
+        <attr name="minuteColor" format="color" />
+        <attr name="hourColor" format="color" />
+    </declare-styleable>
+
+    <declare-styleable name="MenuIcon">
+        <attr name="firstColor" format="color" />
+        <attr name="secondColor" format="color" />
+        <attr name="thirdColor" format="color" />
+        <attr name="fourthColor" format="color" />
+    </declare-styleable>
+
+</resources>

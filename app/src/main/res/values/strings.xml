@@ -1,0 +1,23 @@
+<resources>
+    <string name="app_name">Done</string>
+    <string name="taskList">لیست کار ها</string>
+    <string name="addTask">درج کار جدید</string>
+    <string name="delete">حذف</string>
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="home">خانه</string>
+    <string name="tasks">کارها</string>
+    <string name="profile">پروفایل</string>
+    <string name="add_task">اضافه کردن کار</string>
+    <string name="task_description">شرح کار:</string>
+    <string name="register_task">ثبت کار برای: %s</string>
+    <string name="write_task_description">چه در ذهن دارید؟...</string>
+    <string name="all_today_tasks_are_done">هورا! همه ی کار های امروز انجام شده اند!</string>
+    <string name="add_date">درج تاریخ</string>
+    <string name="add_alarm">درج هشدار</string>
+    <string name="name_family">نام و نام خانوادگی</string>
+    <string name="email_address">آدرس ایمیل</string>
+    <string name="phone_number">تلفن تماس</string>
+    <string name="edit_account_info">ویرایش مشخصات کاربری</string>
+    <string name="edit_theme">تغییر پوسته برنامه</string>
+    <string name="app_info">اطلاعات نرم افزار</string>
+</resources>
