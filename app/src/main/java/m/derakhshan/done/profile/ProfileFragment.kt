@@ -51,8 +51,8 @@ class ProfileFragment : Fragment() {
 
         //-------------------------(init variables)-----------------------//
         binding.name.setText(utils.userNameFamily)
-        binding.phone.setText(arrange.persianConverter(utils.userPhone))
-        binding.email.setText(utils.userEmail)
+        /*binding.phone.setText(arrange.persianConverter(utils.userPhone))
+        binding.email.setText(utils.userEmail)*/
         binding.picture.setImageURI(Uri.parse(utils.userImage))
 
 
@@ -69,7 +69,7 @@ class ProfileFragment : Fragment() {
             }
 
         })
-        binding.phone.addTextChangedListener(object : TextWatcher {
+        /*binding.phone.addTextChangedListener(object : TextWatcher {
             override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
             }
 
@@ -95,7 +95,7 @@ class ProfileFragment : Fragment() {
         })
         binding.phone.setOnFocusChangeListener { _, b ->
             if (!b) binding.phone.setText(arrange.persianConverter(utils.userPhone))
-        }
+        }*/
         binding.editPhoto.setOnClickListener {
             ImagePicker.with(this)
                 .crop()
@@ -109,7 +109,10 @@ class ProfileFragment : Fragment() {
             uri.putString("name", utils.userNameFamily)
             it.findNavController().navigate(R.id.action_profileFragment2_to_zoomImageFragment2, uri)
         }
-        binding.version.text = arrange.persianConcatenate(first = "نسخه ی ",end = "1.0")
+        binding.version.text = arrange.persianConcatenate(first = "نسخه ی ", end = "1.0")
+        binding.name.onFocusChangeListener = View.OnFocusChangeListener { _, focus ->
+            binding.name.isCursorVisible = focus
+        }
 
     }
 
