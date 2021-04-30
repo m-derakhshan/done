@@ -4,6 +4,7 @@ import androidx.room.Database
 import androidx.room.RoomDatabase
 import androidx.room.TypeConverters
 import m.derakhshan.done.database.convertor.EnumConverters
+import m.derakhshan.done.database.convertor.HashMapConverter
 import m.derakhshan.done.database.dao.TasksDAO
 import m.derakhshan.done.database.models.TasksModel
 
@@ -12,7 +13,7 @@ import m.derakhshan.done.database.models.TasksModel
     entities = [TasksModel::class],
     version = 1, exportSchema = false
 )
-@TypeConverters(EnumConverters::class)
+@TypeConverters(EnumConverters::class, HashMapConverter::class)
 abstract class TasksDatabase : RoomDatabase() {
     abstract val tasksDAO: TasksDAO
 }

@@ -61,15 +61,14 @@ class TodayTaskRecyclerAdapter(private val today: PersianCalendar) :
                 myView.doneAnimation.progress = 0F
             }
 
-            model.date?.let {date->
-                myView.taskName.setTextColor(
-                    ContextCompat.getColor(
-                        itemView.context,
-                        if (date < today.shortDateString && model.status == TaskStatus.IN_PROGRESS) R.color.red else R.color.black
-                    )
+            myView.taskName.setTextColor(
+                ContextCompat.getColor(
+                    itemView.context,
+                    if (model.date.keys.first() < today.shortDateString && model.status == TaskStatus.IN_PROGRESS) R.color.red else R.color.black
                 )
+            )
 
-            }
+
         }
 
     }

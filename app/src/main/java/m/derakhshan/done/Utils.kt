@@ -46,20 +46,6 @@ class Utils(private val context: Context) {
         }
         get() = share.getString("userNameFamily", "") ?: ""
 
-    var userEmail: String
-        set(value) {
-            editor.putString("userEmail", value)
-            editor.apply()
-        }
-        get() = share.getString("userEmail", "") ?: ""
-
-    var userPhone: String?
-        set(value) {
-            editor.putString("userPhone", value)
-            editor.apply()
-        }
-        get() = share.getString("userPhone", "")
-
     var userImage: String?
         set(value) {
             editor.putString("userImage", value)

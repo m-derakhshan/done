@@ -18,12 +18,11 @@
     <color name="blue">#2196F3</color>
     <color name="dark_blue">#036ABC</color>
     <color name="light_blue">#D8E9FA</color>
+    <color name="alpha_light_blue">#E6F2FD</color>
+    <color name="shadow_blue">#A5D3F6</color>
     <color name="light_green">#E0FFE2</color>
     <color name="light_red">#F7F1FF</color>
 
-    <color name="alpha_light_blue">#E6F2FD</color>
-
-    <color name="shadow_blue">#A5D3F6</color>
 
 
 </resources>

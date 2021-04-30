@@ -16,14 +16,13 @@
     </Transition>
 
 
-
     <ConstraintSet android:id="@+id/starting_set">
 
         <Constraint
             android:id="@+id/clock_layout"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_marginTop="50dp"
+            android:layout_height="0dp"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/top_info" />
@@ -75,9 +74,6 @@
             app:visibilityMode="ignore" />
 
     </ConstraintSet>
-
-
-
 
 
 </MotionScene>

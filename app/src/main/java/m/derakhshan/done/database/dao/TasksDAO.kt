@@ -12,10 +12,10 @@ interface TasksDAO {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun add(task: TasksModel)
 
-    @Query("SELECT * FROM Tasks WHERE status = :status order by  id ASC")
-    fun getTodayTask(status: TaskStatus): LiveData<List<TasksModel>>
+    @Query("SELECT * FROM Tasks WHERE date = :date order by  id ASC")
+    fun getTodayTask(date: Map<String, String>): LiveData<List<TasksModel>>
 
-    @Query("SELECT * FROM Tasks order by status DESC, id ASC")
+    @Query("SELECT * FROM Tasks order by id ASC")
     fun getAllTasks(): LiveData<List<TasksModel>>
 
     @Query("UPDATE Tasks SET status = :status WHERE id = :id")
@@ -23,9 +23,6 @@ interface TasksDAO {
 
     @Delete
     fun delete(task: TasksModel)
-
-    @Query("DELETE from Tasks")
-    fun deleteAll()
 
 
 }

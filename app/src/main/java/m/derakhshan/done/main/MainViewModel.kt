@@ -4,6 +4,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.aminography.primecalendar.persian.PersianCalendar
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.*
 import m.derakhshan.done.database.TasksDatabase
@@ -11,6 +12,7 @@ import m.derakhshan.done.database.models.TaskStatus
 import m.derakhshan.done.database.models.TasksModel
 import java.util.*
 import javax.inject.Inject
+import kotlin.collections.HashMap
 
 @HiltViewModel
 class MainViewModel @Inject constructor(private val database: TasksDatabase) : ViewModel() {
@@ -20,11 +22,13 @@ class MainViewModel @Inject constructor(private val database: TasksDatabase) : V
     private val scope = Dispatchers.Default + job
     private val timeData = MutableLiveData<TimeModel>()
     private var checkGreeting = true
+    private val today = PersianCalendar()
     val greeting = MutableLiveData<String>()
 
-
     val todayTasks: LiveData<List<TasksModel>>
-        get() = database.tasksDAO.getTodayTask(TaskStatus.IN_PROGRESS)
+        get() = database.tasksDAO.getTodayTask(HashMap<String, String>().apply {
+            this[today.shortDateString] = today.weekDayName
+        })
 
     val allTasks: LiveData<List<TasksModel>>
         get() = database.tasksDAO.getAllTasks()

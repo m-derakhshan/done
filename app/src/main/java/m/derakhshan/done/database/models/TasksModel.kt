@@ -15,7 +15,7 @@ data class TasksModel(
     val taskName: String,
 
     @ColumnInfo
-    val date: String?,
+    val date: Map<String, String>,
 
     @ColumnInfo
     val time: String?,

@@ -2,6 +2,7 @@ package m.derakhshan.done.tasks
 
 import android.graphics.Color
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -21,7 +22,6 @@ import m.derakhshan.done.database.models.TasksModel
 import m.derakhshan.done.databinding.FragmentTasksBinding
 import m.derakhshan.done.main.MainViewModel
 import m.derakhshan.done.main.today_tasks.RecyclerItemTouchHelper
-import m.derakhshan.done.main.today_tasks.TodayTaskRecyclerAdapter
 import javax.inject.Inject
 
 
@@ -34,7 +34,7 @@ class TasksFragment : Fragment(),
     private val viewModel: MainViewModel by viewModels()
 
     @Inject
-    lateinit var adapter: TodayTaskRecyclerAdapter
+    lateinit var adapter: TasksRecyclerAdapter
 
     @Inject
     lateinit var utils: Utils
@@ -45,6 +45,10 @@ class TasksFragment : Fragment(),
 
     //-------------------------(Global variables)-----------------------//
     private lateinit var binding: FragmentTasksBinding
+
+    companion object {
+        var showAnim: Boolean = false
+    }
 
 
     override fun onCreateView(
@@ -60,7 +64,7 @@ class TasksFragment : Fragment(),
 
         //-------------------------(init variables)-----------------------//
         val itemTouchHelperCallback: ItemTouchHelper.SimpleCallback =
-            RecyclerItemTouchHelper(0, ItemTouchHelper.LEFT or ItemTouchHelper.RIGHT, this)
+            RecyclerItemTouchHelper(0, ItemTouchHelper.LEFT, this)
         ItemTouchHelper(itemTouchHelperCallback).attachToRecyclerView(binding.tasksRecyclerView)
 
 
@@ -70,9 +74,34 @@ class TasksFragment : Fragment(),
 
 
         //-------------------------(set observers)-----------------------//
-        viewModel.allTasks.observe(viewLifecycleOwner, {
-            it?.let { data ->
-                adapter.submitList(data)
+        viewModel.allTasks.observe(viewLifecycleOwner, { list ->
+            list?.let { data: List<TasksModel> ->
+                if (data.isEmpty()) {
+                    if (showAnim) {
+                        binding.allDoneAnimation.visibility = View.VISIBLE
+                        binding.allDoneAnimation.playAnimation()
+                        showAnim = false
+                    }
+                } else {
+                    binding.allDoneAnimation.visibility = View.GONE
+                    showAnim = true
+                }
+                val tasksItem = ArrayList<TasksList>()
+                //-------------------------(group by key which is date in fact)-----------------------//
+                val tasksList: Map<String, List<TasksModel>> = data.groupBy { it.date.keys.first() }
+                for (i in tasksList.keys) {
+                    //-------------------------(adding date in list first)-----------------------//
+                    tasksItem.add(DateItem().apply {
+                        this.date = HashMap<String, String>().apply {
+                            this[i] = tasksList[i]?.get(0)?.date?.values?.first() ?: ""
+                        }
+                    })
+                    for (j in tasksList[i]!!)
+                        tasksItem.add(TaskItem().apply {
+                            this.task = j
+                        })
+                }
+                adapter.submitList(tasksItem)
             }
         })
 
@@ -80,13 +109,12 @@ class TasksFragment : Fragment(),
     }
 
     override fun onSwiped(viewHolder: RecyclerView.ViewHolder?, direction: Int, position: Int) {
-        if (viewHolder is TodayTaskRecyclerAdapter.ViewHolder) {
-            val deletedItem: TasksModel = adapter.getItemModel(position)
+        if (viewHolder is TasksRecyclerAdapter.ViewHolder) {
+            val deletedItem: TasksModel = adapter.getItemModel(position).task
 
             if (direction == ItemTouchHelper.LEFT) {
-                viewModel.deleteTask(adapter.getItemModel(position))
+                viewModel.deleteTask(adapter.getItemModel(position).task)
                 utils.vibratePhone()
-
                 val snackbar = utils.showSnackBar(
                     ContextCompat.getColor(requireContext(), R.color.snackBarBlack),
                     msg = "کار با موفقیت حذف شد.",
@@ -104,6 +132,5 @@ class TasksFragment : Fragment(),
             }
         }
     }
-
 
 }

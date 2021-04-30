@@ -43,7 +43,6 @@ class MainActivity : AppCompatActivity() {
     private fun setNavigation() {
         val graphID = listOf(
             R.navigation.home,
-            R.navigation.profile,
             R.navigation.tasks
         )
         binding.bottomMenu.setupWithNavController(

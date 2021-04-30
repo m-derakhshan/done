@@ -11,6 +11,7 @@ import dagger.hilt.android.qualifiers.ApplicationContext
 import m.derakhshan.done.Arrange
 import m.derakhshan.done.Utils
 import m.derakhshan.done.main.today_tasks.TodayTaskRecyclerAdapter
+import m.derakhshan.done.tasks.TasksRecyclerAdapter
 
 
 @Module
@@ -19,6 +20,9 @@ object FragmentModule {
 
     @Provides
     fun provideTodayTaskRecyclerAdapter() = TodayTaskRecyclerAdapter(PersianCalendar())
+
+    @Provides
+    fun provideTaskRecyclerAdapter() = TasksRecyclerAdapter(PersianCalendar())
 
     @Provides
     fun provideUtils(@ApplicationContext context: Context) = Utils(context)

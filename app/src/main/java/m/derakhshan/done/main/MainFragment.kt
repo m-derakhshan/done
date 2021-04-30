@@ -1,12 +1,17 @@
 package m.derakhshan.done.main
 
+import android.app.Activity
 import android.content.Context
 import android.graphics.Color
+import android.net.Uri
 import android.os.Bundle
+import android.text.Editable
+import android.text.TextWatcher
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.InputMethodManager
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.content.ContextCompat
 import androidx.core.view.ViewCompat
 import androidx.databinding.DataBindingUtil
@@ -20,6 +25,7 @@ import com.aminography.primecalendar.persian.PersianCalendar
 import com.aminography.primedatepicker.picker.PrimeDatePicker
 import com.aminography.primedatepicker.picker.theme.LightThemeFactory
 import dagger.hilt.android.AndroidEntryPoint
+import de.co.derakhshan.imagepickerlib.ImagePicker
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -35,6 +41,7 @@ import m.derakhshan.done.main.today_tasks.RecyclerItemTouchHelper
 import m.derakhshan.done.main.today_tasks.TodayTaskRecyclerAdapter
 import java.util.*
 import javax.inject.Inject
+import kotlin.collections.HashMap
 
 
 @AndroidEntryPoint
@@ -83,7 +90,7 @@ class MainFragment : Fragment(),
         //-------------------------(init variables)-----------------------//
         var taskDate = PersianCalendar()
         val swipeLeft: ItemTouchHelper.SimpleCallback =
-            RecyclerItemTouchHelper(0, ItemTouchHelper.LEFT or ItemTouchHelper.RIGHT, this)
+            RecyclerItemTouchHelper(0, ItemTouchHelper.LEFT, this)
         ItemTouchHelper(swipeLeft).attachToRecyclerView(binding.taskLayout.tasksRecyclerView)
         val calendarFactory = object : LightThemeFactory() {
             override val typefacePath: String
@@ -128,7 +135,16 @@ class MainFragment : Fragment(),
         })
 
         //-------------------------(Set Binding Functions)-----------------------//
-        binding.userName.text = utils.userNameFamily
+        binding.userName.setText( utils.userNameFamily)
+        if (!utils.userImage.isNullOrEmpty())
+            binding.picture.setImageURI(Uri.parse(utils.userImage))
+        binding.picture.setOnClickListener {
+            ImagePicker.with(this)
+                .crop()
+                .compress(2048)
+                .maxResultSize(1080, 1080)
+                .start(startForImage)
+        }
         binding.taskLayout.tasksRecyclerView.apply {
             this.adapter = this@MainFragment.adapter
             this.layoutManager = LinearLayoutManager(requireContext())
@@ -151,7 +167,9 @@ class MainFragment : Fragment(),
                         database.tasksDAO.add(
                             TasksModel(
                                 taskName = taskName,
-                                date = taskDate.shortDateString,
+                                date = HashMap<String, String>().apply {
+                                    this[taskDate.shortDateString] = taskDate.weekDayName
+                                },
                                 status = TaskStatus.IN_PROGRESS,
                                 time = time,
                                 id = arrange.generateID(taskDate.shortDateString, time)
@@ -169,9 +187,35 @@ class MainFragment : Fragment(),
                 .pickSingleDay { taskDate = it.toPersian() }
                 .initiallyPickedSingleDay(taskDate)
                 .applyTheme(calendarFactory)
+                .minPossibleDate(PersianCalendar())
                 .build()
                 .show(parentFragmentManager, "date")
         }
+        binding.editName.setOnClickListener {
+            binding.editName.alpha = 0.5F
+            binding.editName.isEnabled = false
+            binding.userName.isEnabled = true
+            binding.userName.requestFocus()
+            inputMethodManager?.toggleSoftInput(InputMethodManager.SHOW_FORCED, 0)
+        }
+        binding.userName.setOnFocusChangeListener { _, changed ->
+            if (changed) {
+                binding.editName.alpha = 1F
+                binding.userName.isEnabled = false
+                binding.editName.isEnabled = true
+            }
+        }
+        binding.userName.addTextChangedListener(object : TextWatcher {
+            override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+            }
+
+            override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+            }
+
+            override fun afterTextChanged(newName: Editable?) {
+                utils.userNameFamily = newName.toString()
+            }
+        })
 
 
     }
@@ -215,6 +259,16 @@ class MainFragment : Fragment(),
             isAddTaskOpen = false
         }
     }
+
+    private val startForImage =
+        registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
+            if (result.resultCode == Activity.RESULT_OK) {
+                result.data?.data?.let { uri ->
+                    binding.picture.setImageURI(uri)
+                    utils.userImage = uri.toString()
+                }
+            }
+        }
 
 
 }
