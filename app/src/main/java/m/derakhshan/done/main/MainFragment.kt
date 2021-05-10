@@ -1,5 +1,6 @@
 package m.derakhshan.done.main
 
+import android.animation.Animator
 import android.app.Activity
 import android.content.Context
 import android.graphics.Color
@@ -158,6 +159,16 @@ class MainFragment : Fragment(),
         binding.add.setOnClickListener {
             val taskName = binding.task.text.toString()
             if (taskName.isNotEmpty()) {
+                binding.addAnimation.progress = 0.5F
+                binding.addAnimation.resumeAnimation()
+                binding.addAnimation.addAnimatorListener(object :Animator.AnimatorListener{
+                    override fun onAnimationStart(p0: Animator?) {}
+                    override fun onAnimationCancel(p0: Animator?) {}
+                    override fun onAnimationRepeat(p0: Animator?) {}
+                    override fun onAnimationEnd(p0: Animator?) {
+                        binding.addAnimation.progress = 0F
+                    }
+                })
                 CoroutineScope(Dispatchers.Main).launch {
                     withContext(Dispatchers.IO) {
                         val time =
@@ -178,7 +189,6 @@ class MainFragment : Fragment(),
                     }
                 }
                 binding.task.text.clear()
-                // refresh the task date and set it equals to today date
             }
         }
         binding.time.setOnClickListener {

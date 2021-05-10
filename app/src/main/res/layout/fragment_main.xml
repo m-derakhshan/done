@@ -123,11 +123,21 @@
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintTop_toTopOf="@+id/task">
 
-                <ImageView
+                <com.airbnb.lottie.LottieAnimationView
+                    app:lottie_speed="1.5"
+                    android:id="@+id/add_animation"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:src="@drawable/ic_baseline_arrow_upward_24"
-                    tools:ignore="ContentDescription" />
+                    app:lottie_autoPlay="false"
+                    app:lottie_fileName="add.json"
+                    app:lottie_loop="false" />
+                <!--
+                    <ImageView
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:src="@drawable/ic_baseline_arrow_upward_24"
+                        tools:ignore="ContentDescription" />
+                        -->
             </LinearLayout>
 
             <LinearLayout
