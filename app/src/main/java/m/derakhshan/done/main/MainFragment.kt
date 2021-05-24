@@ -24,6 +24,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.aminography.primecalendar.persian.PersianCalendar
 import com.aminography.primedatepicker.picker.PrimeDatePicker
+import com.aminography.primedatepicker.picker.callback.MultipleDaysPickCallback
 import com.aminography.primedatepicker.picker.theme.LightThemeFactory
 import dagger.hilt.android.AndroidEntryPoint
 import de.co.derakhshan.imagepickerlib.ImagePicker
@@ -42,6 +43,7 @@ import m.derakhshan.done.main.today_tasks.RecyclerItemTouchHelper
 import m.derakhshan.done.main.today_tasks.TodayTaskRecyclerAdapter
 import java.util.*
 import javax.inject.Inject
+import kotlin.collections.ArrayList
 import kotlin.collections.HashMap
 
 
@@ -89,7 +91,9 @@ class MainFragment : Fragment(),
         super.onViewCreated(view, savedInstanceState)
 
         //-------------------------(init variables)-----------------------//
-        var taskDate = PersianCalendar()
+        val taskDate = ArrayList<PersianCalendar>()
+        taskDate.add(PersianCalendar())
+
         val swipeLeft: ItemTouchHelper.SimpleCallback =
             RecyclerItemTouchHelper(0, ItemTouchHelper.LEFT, this)
         ItemTouchHelper(swipeLeft).attachToRecyclerView(binding.taskLayout.tasksRecyclerView)
@@ -136,7 +140,7 @@ class MainFragment : Fragment(),
         })
 
         //-------------------------(Set Binding Functions)-----------------------//
-        binding.userName.setText( utils.userNameFamily)
+        binding.userName.setText(utils.userNameFamily)
         if (!utils.userImage.isNullOrEmpty())
             binding.picture.setImageURI(Uri.parse(utils.userImage))
         binding.picture.setOnClickListener {
@@ -154,14 +158,16 @@ class MainFragment : Fragment(),
             isAddTaskOpen = true
             setAddTaskVisibility.value = true
             // refresh the task date and set it equals to today date
-            taskDate = PersianCalendar()
+            taskDate[0] = PersianCalendar()
         }
+
+
         binding.add.setOnClickListener {
             val taskName = binding.task.text.toString()
             if (taskName.isNotEmpty()) {
                 binding.addAnimation.progress = 0.5F
                 binding.addAnimation.resumeAnimation()
-                binding.addAnimation.addAnimatorListener(object :Animator.AnimatorListener{
+                binding.addAnimation.addAnimatorListener(object : Animator.AnimatorListener {
                     override fun onAnimationStart(p0: Animator?) {}
                     override fun onAnimationCancel(p0: Animator?) {}
                     override fun onAnimationRepeat(p0: Animator?) {}
@@ -171,36 +177,50 @@ class MainFragment : Fragment(),
                 })
                 CoroutineScope(Dispatchers.Main).launch {
                     withContext(Dispatchers.IO) {
-                        val time =
-                            Calendar.getInstance().get(Calendar.HOUR_OF_DAY).toString() + ":" +
-                                    Calendar.getInstance().get(Calendar.MINUTE).toString() + ":" +
-                                    Calendar.getInstance().get(Calendar.SECOND).toString()
-                        database.tasksDAO.add(
-                            TasksModel(
-                                taskName = taskName,
-                                date = HashMap<String, String>().apply {
-                                    this[taskDate.shortDateString] = taskDate.weekDayName
-                                },
-                                status = TaskStatus.IN_PROGRESS,
-                                time = time,
-                                id = arrange.generateID(taskDate.shortDateString, time)
+                        for (task in taskDate) {
+
+                            val time =
+                                Calendar.getInstance().get(Calendar.HOUR_OF_DAY).toString() + ":" +
+                                        Calendar.getInstance().get(Calendar.MINUTE)
+                                            .toString() + ":" +
+                                        Calendar.getInstance().get(Calendar.SECOND).toString()
+                            database.tasksDAO.add(
+                                TasksModel(
+                                    taskName = taskName,
+                                    date = HashMap<String, String>().apply {
+                                        this[task.shortDateString] = task.weekDayName
+                                    },
+                                    status = TaskStatus.IN_PROGRESS,
+                                    time = time,
+                                    id = arrange.generateID(task.shortDateString, time)
+                                )
                             )
-                        )
+
+                        }
+
                     }
                 }
                 binding.task.text.clear()
             }
         }
+
+        val multipleDays = MultipleDaysPickCallback { days ->
+            taskDate.clear()
+            for (day in days)
+                taskDate.add(day.toPersian())
+        }
+
         binding.time.setOnClickListener {
             inputMethodManager?.hideSoftInputFromWindow(view.windowToken, 0)
             PrimeDatePicker.dialogWith(PersianCalendar())
-                .pickSingleDay { taskDate = it.toPersian() }
-                .initiallyPickedSingleDay(taskDate)
+                .pickMultipleDays(multipleDays)
+                .initiallyPickedMultipleDays(taskDate)
                 .applyTheme(calendarFactory)
                 .minPossibleDate(PersianCalendar())
                 .build()
                 .show(parentFragmentManager, "date")
         }
+
         binding.editName.setOnClickListener {
             binding.editName.alpha = 0.5F
             binding.editName.isEnabled = false
