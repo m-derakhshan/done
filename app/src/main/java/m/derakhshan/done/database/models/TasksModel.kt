@@ -21,7 +21,8 @@ data class TasksModel(
     val time: String?,
 
     @ColumnInfo
-    val status: TaskStatus
+    val status: TaskStatus,
+
 )
 
 

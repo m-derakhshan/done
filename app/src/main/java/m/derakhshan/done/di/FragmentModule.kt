@@ -19,7 +19,8 @@ import m.derakhshan.done.tasks.TasksRecyclerAdapter
 object FragmentModule {
 
     @Provides
-    fun provideTodayTaskRecyclerAdapter() = TodayTaskRecyclerAdapter(PersianCalendar())
+    fun provideTodayTaskRecyclerAdapter() =
+        TodayTaskRecyclerAdapter(PersianCalendar())
 
     @Provides
     fun provideTaskRecyclerAdapter() = TasksRecyclerAdapter(PersianCalendar())

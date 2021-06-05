@@ -11,7 +11,7 @@ import m.derakhshan.done.database.models.TasksModel
 
 @Database(
     entities = [TasksModel::class],
-    version = 1, exportSchema = false
+    version = 3, exportSchema = false
 )
 @TypeConverters(EnumConverters::class, HashMapConverter::class)
 abstract class TasksDatabase : RoomDatabase() {

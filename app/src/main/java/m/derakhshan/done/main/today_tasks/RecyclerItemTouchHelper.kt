@@ -2,11 +2,13 @@ package m.derakhshan.done.main.today_tasks
 
 
 import android.graphics.Canvas
+import android.util.Log
 import android.view.View
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.RecyclerView
 import com.airbnb.lottie.LottieAnimationView
 import m.derakhshan.done.R
+
 
 class RecyclerItemTouchHelper(
     dragDirs: Int,
@@ -28,8 +30,12 @@ class RecyclerItemTouchHelper(
 
     override fun onSelectedChanged(viewHolder: RecyclerView.ViewHolder?, actionState: Int) {
         if (viewHolder != null) {
-            val foregroundView: View = viewHolder.itemView.findViewById(R.id.view_foreground)
-            getDefaultUIUtil().onSelected(foregroundView)
+            try {
+                val foregroundView: View = viewHolder.itemView.findViewById(R.id.view_foreground)
+                getDefaultUIUtil().onSelected(foregroundView)
+            } catch (e: Exception) {
+                Log.i("Log", "error in ItemTouchHelper Line 37")
+            }
         }
     }
 
@@ -54,8 +60,8 @@ class RecyclerItemTouchHelper(
 
     override fun clearView(recyclerView: RecyclerView, viewHolder: RecyclerView.ViewHolder) {
 
-            val foregroundView: View? = viewHolder.itemView.findViewById(R.id.view_foreground)
-            getDefaultUIUtil().clearView(foregroundView)
+        val foregroundView: View? = viewHolder.itemView.findViewById(R.id.view_foreground)
+        getDefaultUIUtil().clearView(foregroundView)
 
     }
 
@@ -69,33 +75,26 @@ class RecyclerItemTouchHelper(
         isCurrentlyActive: Boolean
     ) {
 
+
         if (dX > 0) {
-
-            val deleteLayout: View? =
-                viewHolder.itemView.findViewById(R.id.view_background_delete)
-            deleteLayout?.visibility = View.GONE
-
-            val doneLayout: View? =
-                viewHolder.itemView.findViewById(R.id.view_background_done)
-            doneLayout?.visibility = View.VISIBLE
-
-            val doneAnimation: LottieAnimationView =
-                viewHolder.itemView.findViewById(R.id.done_animation)
-
-            doneAnimation.progress = dX / 1200
+            //-------------------------(here is for opening delete and edit menu)-----------------------//
 
         } else {
+
+            //-------------------------(here is for mark task as done)-----------------------//
+
             val deleteLayout: View? =
-                viewHolder.itemView.findViewById(R.id.view_background_delete)
+                viewHolder.itemView.findViewById(R.id.view_background_done)
+
+            val mainLayout: View? =
+                viewHolder.itemView.findViewById(R.id.frame_root)
+
             deleteLayout?.visibility = View.VISIBLE
 
-            val doneLayout: View? =
-                viewHolder.itemView.findViewById(R.id.view_background_done)
-            doneLayout?.visibility = View.GONE
-
             val deleteAnimation: LottieAnimationView? =
-                viewHolder.itemView.findViewById(R.id.delete_animation)
-            deleteAnimation?.progress = -dX / 5000
+                viewHolder.itemView.findViewById(R.id.done_animation)
+
+            deleteAnimation?.progress = if (mainLayout!!.alpha < 1F) (1F + dX / 600) else -dX / 800
 
 
         }

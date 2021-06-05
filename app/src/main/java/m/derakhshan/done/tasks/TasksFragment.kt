@@ -45,6 +45,7 @@ class TasksFragment : Fragment(),
     //-------------------------(Global variables)-----------------------//
     private lateinit var binding: FragmentTasksBinding
 
+
     companion object {
         var showAnim: Boolean = false
     }
@@ -60,6 +61,7 @@ class TasksFragment : Fragment(),
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
 
         //-------------------------(init variables)-----------------------//
         val itemTouchHelperCallback: ItemTouchHelper.SimpleCallback =
@@ -87,7 +89,8 @@ class TasksFragment : Fragment(),
                 }
                 val tasksItem = ArrayList<TasksList>()
                 //-------------------------(group by key which is date in fact)-----------------------//
-                val tasksList: Map<String, List<TasksModel>> = data.groupBy { it.date.keys.first() }
+                val tasksList: Map<String, List<TasksModel>> =
+                    data.groupBy { it.date.keys.first() }
                 for (i in tasksList.keys) {
                     //-------------------------(adding date in list first)-----------------------//
                     tasksItem.add(DateItem().apply {
@@ -100,7 +103,9 @@ class TasksFragment : Fragment(),
                             this.task = j
                         })
                 }
+
                 adapter.submitList(tasksItem)
+
             }
         })
 
@@ -111,7 +116,7 @@ class TasksFragment : Fragment(),
         if (viewHolder is TasksRecyclerAdapter.ViewHolder) {
             val deletedItem: TasksModel = adapter.getItemModel(position).task
 
-            if (direction == ItemTouchHelper.LEFT) {
+            if (direction == ItemTouchHelper.RIGHT) {
                 viewModel.deleteTask(adapter.getItemModel(position).task)
                 utils.vibratePhone()
                 val snackbar = utils.showSnackBar(
@@ -127,6 +132,7 @@ class TasksFragment : Fragment(),
                 ViewCompat.setLayoutDirection(snackbar.view, ViewCompat.LAYOUT_DIRECTION_RTL)
                 snackbar.show()
             } else {
+
                 viewModel.updateStatus(deletedItem)
             }
         }

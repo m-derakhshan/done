@@ -1,5 +1,6 @@
 package m.derakhshan.done.main.today_tasks
 
+
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.core.content.ContextCompat
@@ -27,18 +28,22 @@ class TodayTaskRecyclerAdapter(private val today: PersianCalendar) :
     }
     ) {
 
+
     fun getItemModel(position: Int): TasksModel = getItem(position)
+
+
+
 
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val inflater = LayoutInflater.from(parent.context)
-        val binding = DataBindingUtil.inflate<TasksItemModelBinding>(
+        val taskBinding = DataBindingUtil.inflate<TasksItemModelBinding>(
             inflater,
             R.layout.tasks_item_model,
             parent,
             false
         )
-        return ViewHolder(binding)
+        return ViewHolder(taskBinding)
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
@@ -46,7 +51,9 @@ class TodayTaskRecyclerAdapter(private val today: PersianCalendar) :
     }
 
 
-    inner class ViewHolder(private val myView: TasksItemModelBinding) :
+    inner class ViewHolder(
+        private val myView: TasksItemModelBinding
+    ) :
         RecyclerView.ViewHolder(myView.root) {
 
         fun bind(model: TasksModel) {
@@ -67,9 +74,8 @@ class TodayTaskRecyclerAdapter(private val today: PersianCalendar) :
                     if (model.date.keys.first() < today.shortDateString && model.status == TaskStatus.IN_PROGRESS) R.color.red else R.color.black
                 )
             )
-
-
         }
+
 
     }
 }

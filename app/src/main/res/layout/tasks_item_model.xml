@@ -22,45 +22,24 @@
             android:paddingBottom="10dp"
             tools:ignore="UselessParent">
 
+
             <LinearLayout
+                android:scaleY="0.92"
                 android:id="@+id/view_background_done"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:background="@drawable/tasks_background_rounded_corners"
-                android:backgroundTint="@color/alpha_light_blue"
-                android:gravity="end"
+                android:backgroundTint="@color/light_green"
                 android:orientation="horizontal"
                 android:padding="10dp">
 
                 <com.airbnb.lottie.LottieAnimationView
                     android:id="@+id/done_animation"
-                    android:layout_width="35dp"
-                    android:layout_height="35dp"
-                    android:layout_gravity="center_vertical|end"
-                    app:lottie_autoPlay="false"
-                    app:lottie_fileName="done.json"
-                    app:lottie_loop="false"
-                    app:lottie_progress="0" />
-
-            </LinearLayout>
-
-
-            <LinearLayout
-                android:id="@+id/view_background_delete"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:background="@drawable/tasks_background_rounded_corners"
-                android:backgroundTint="@color/light_red"
-                android:orientation="horizontal"
-                android:padding="10dp">
-
-                <com.airbnb.lottie.LottieAnimationView
-                    android:id="@+id/delete_animation"
                     android:layout_width="40dp"
                     android:layout_height="40dp"
                     android:layout_gravity="center_vertical|end"
                     app:lottie_autoPlay="false"
-                    app:lottie_fileName="delete.json"
+                    app:lottie_fileName="done.json"
                     app:lottie_loop="false"
                     app:lottie_progress="0" />
 

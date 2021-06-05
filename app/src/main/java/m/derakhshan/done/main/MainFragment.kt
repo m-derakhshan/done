@@ -41,6 +41,7 @@ import m.derakhshan.done.database.models.TasksModel
 import m.derakhshan.done.databinding.FragmentMainBinding
 import m.derakhshan.done.main.today_tasks.RecyclerItemTouchHelper
 import m.derakhshan.done.main.today_tasks.TodayTaskRecyclerAdapter
+
 import java.util.*
 import javax.inject.Inject
 import kotlin.collections.ArrayList
@@ -93,6 +94,7 @@ class MainFragment : Fragment(),
         //-------------------------(init variables)-----------------------//
         val taskDate = ArrayList<PersianCalendar>()
         taskDate.add(PersianCalendar())
+
 
         val swipeLeft: ItemTouchHelper.SimpleCallback =
             RecyclerItemTouchHelper(0, ItemTouchHelper.LEFT, this)
@@ -251,10 +253,11 @@ class MainFragment : Fragment(),
     }
 
     override fun onSwiped(viewHolder: RecyclerView.ViewHolder?, direction: Int, position: Int) {
+
         if (viewHolder is TodayTaskRecyclerAdapter.ViewHolder) {
             val deletedItem: TasksModel = adapter.getItemModel(position)
 
-            if (direction == ItemTouchHelper.LEFT) {
+            if (direction == ItemTouchHelper.RIGHT) {
                 viewModel.deleteTask(adapter.getItemModel(position))
                 utils.vibratePhone()
 
@@ -300,5 +303,6 @@ class MainFragment : Fragment(),
             }
         }
 
-
 }
+
+

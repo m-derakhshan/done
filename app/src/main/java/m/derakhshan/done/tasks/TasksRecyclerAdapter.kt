@@ -1,5 +1,6 @@
 package m.derakhshan.done.tasks
 
+
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.core.content.ContextCompat
@@ -19,11 +20,14 @@ class TasksRecyclerAdapter(private val today: PersianCalendar) :
     ListAdapter<TasksList, TasksRecyclerAdapter.ViewHolder>
         (object : DiffUtil.ItemCallback<TasksList>() {
         override fun areItemsTheSame(oldItem: TasksList, newItem: TasksList): Boolean {
+
             return oldItem.id == newItem.id
         }
 
         override fun areContentsTheSame(oldItem: TasksList, newItem: TasksList): Boolean {
-            return oldItem == newItem
+            return if ((oldItem is TaskItem) && (newItem is TaskItem))
+                (oldItem.task.id == newItem.task.id) && (oldItem.task.status == newItem.task.status)
+            else newItem == oldItem
         }
     }
     ) {
@@ -71,16 +75,12 @@ class TasksRecyclerAdapter(private val today: PersianCalendar) :
     ) :
         RecyclerView.ViewHolder(taskView?.root ?: dateView!!.root) {
         fun bind(taskModel: TaskItem) {
+
             taskView?.let { myView ->
                 val model = taskModel.task
                 myView.taskName.text = model.taskName
-                if (model.status == TaskStatus.DONE) {
-                    myView.frameRoot.alpha = 0.3F
-                    myView.doneAnimation.progress = 1F
-                } else {
-                    myView.frameRoot.alpha = 1F
-                    myView.doneAnimation.progress = 0F
-                }
+                myView.frameRoot.alpha = if (model.status == TaskStatus.DONE) 0.3F else 1F
+
 
                 myView.taskName.setTextColor(
                     ContextCompat.getColor(

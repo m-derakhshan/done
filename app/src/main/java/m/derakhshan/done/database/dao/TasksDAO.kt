@@ -12,10 +12,13 @@ interface TasksDAO {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun add(task: TasksModel)
 
-    @Query("SELECT * FROM Tasks WHERE date <= :date order by  id ASC")
-    fun getTodayTask(date: Map<String, String>): LiveData<List<TasksModel>>
+    @Query("SELECT * FROM Tasks WHERE date <= :date and status = :status  order by  id ASC")
+    fun getTodayTask(
+        date: Map<String, String>,
+        status: TaskStatus = TaskStatus.IN_PROGRESS
+    ): LiveData<List<TasksModel>>
 
-    @Query("SELECT * FROM Tasks order by id ASC")
+    @Query("SELECT * FROM Tasks order by status DESC , id ASC")
     fun getAllTasks(): LiveData<List<TasksModel>>
 
     @Query("UPDATE Tasks SET status = :status WHERE id = :id")
