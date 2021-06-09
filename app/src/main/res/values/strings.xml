@@ -24,4 +24,5 @@
     <string name="app_info">اطلاعات نرم افزار</string>
     <string name="my_email">derakhshan@me.iut.ac.ir</string>
     <string name="dear_user">کاربر گرامی</string>
+    <string name="editSubTasks">ویرایش زیر کار ها</string>
 </resources>

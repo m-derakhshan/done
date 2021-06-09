@@ -65,7 +65,7 @@ class TasksFragment : Fragment(),
 
         //-------------------------(init variables)-----------------------//
         val itemTouchHelperCallback: ItemTouchHelper.SimpleCallback =
-            RecyclerItemTouchHelper(0, ItemTouchHelper.LEFT, this)
+            RecyclerItemTouchHelper(0, ItemTouchHelper.LEFT or ItemTouchHelper.RIGHT, this)
         ItemTouchHelper(itemTouchHelperCallback).attachToRecyclerView(binding.tasksRecyclerView)
 
 
@@ -132,7 +132,6 @@ class TasksFragment : Fragment(),
                 ViewCompat.setLayoutDirection(snackbar.view, ViewCompat.LAYOUT_DIRECTION_RTL)
                 snackbar.show()
             } else {
-
                 viewModel.updateStatus(deletedItem)
             }
         }

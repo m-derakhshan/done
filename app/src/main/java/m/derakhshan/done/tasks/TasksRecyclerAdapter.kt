@@ -20,7 +20,6 @@ class TasksRecyclerAdapter(private val today: PersianCalendar) :
     ListAdapter<TasksList, TasksRecyclerAdapter.ViewHolder>
         (object : DiffUtil.ItemCallback<TasksList>() {
         override fun areItemsTheSame(oldItem: TasksList, newItem: TasksList): Boolean {
-
             return oldItem.id == newItem.id
         }
 

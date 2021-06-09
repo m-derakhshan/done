@@ -6,8 +6,6 @@ import android.content.Context
 import android.graphics.Color
 import android.net.Uri
 import android.os.Bundle
-import android.text.Editable
-import android.text.TextWatcher
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -97,7 +95,7 @@ class MainFragment : Fragment(),
 
 
         val swipeLeft: ItemTouchHelper.SimpleCallback =
-            RecyclerItemTouchHelper(0, ItemTouchHelper.LEFT, this)
+            RecyclerItemTouchHelper(0, ItemTouchHelper.LEFT or ItemTouchHelper.RIGHT, this)
         ItemTouchHelper(swipeLeft).attachToRecyclerView(binding.taskLayout.tasksRecyclerView)
         val calendarFactory = object : LightThemeFactory() {
             override val typefacePath: String
@@ -142,7 +140,7 @@ class MainFragment : Fragment(),
         })
 
         //-------------------------(Set Binding Functions)-----------------------//
-        binding.userName.setText(utils.userNameFamily)
+
         if (!utils.userImage.isNullOrEmpty())
             binding.picture.setImageURI(Uri.parse(utils.userImage))
         binding.picture.setOnClickListener {
@@ -222,33 +220,6 @@ class MainFragment : Fragment(),
                 .build()
                 .show(parentFragmentManager, "date")
         }
-
-        binding.editName.setOnClickListener {
-            binding.editName.alpha = 0.5F
-            binding.editName.isEnabled = false
-            binding.userName.isEnabled = true
-            binding.userName.requestFocus()
-            inputMethodManager?.toggleSoftInput(InputMethodManager.SHOW_FORCED, 0)
-        }
-        binding.userName.setOnFocusChangeListener { _, changed ->
-            if (changed) {
-                binding.editName.alpha = 1F
-                binding.userName.isEnabled = false
-                binding.editName.isEnabled = true
-            }
-        }
-        binding.userName.addTextChangedListener(object : TextWatcher {
-            override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
-            }
-
-            override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
-            }
-
-            override fun afterTextChanged(newName: Editable?) {
-                utils.userNameFamily = newName.toString()
-            }
-        })
-
 
     }
 

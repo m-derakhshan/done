@@ -13,6 +13,7 @@ import m.derakhshan.done.R
 import m.derakhshan.done.database.models.TaskStatus
 import m.derakhshan.done.database.models.TasksModel
 import m.derakhshan.done.databinding.TasksItemModelBinding
+import m.derakhshan.done.tasks.TaskItem
 
 
 class TodayTaskRecyclerAdapter(private val today: PersianCalendar) :
@@ -23,7 +24,7 @@ class TodayTaskRecyclerAdapter(private val today: PersianCalendar) :
         }
 
         override fun areContentsTheSame(oldItem: TasksModel, newItem: TasksModel): Boolean {
-            return oldItem == newItem
+            return (oldItem.id == newItem.id) && (oldItem.status == newItem.status)
         }
     }
     ) {
