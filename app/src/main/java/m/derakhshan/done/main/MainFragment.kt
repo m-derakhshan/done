@@ -76,7 +76,7 @@ class MainFragment : Fragment(),
 
     //-------------------------(Global variables)-----------------------//
     private lateinit var binding: FragmentMainBinding
-
+    private val deletedTasksID = ArrayList<Int>()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -227,6 +227,7 @@ class MainFragment : Fragment(),
 
         if (viewHolder is TodayTaskRecyclerAdapter.ViewHolder) {
             val deletedItem: TasksModel = adapter.getItemModel(position)
+            deletedTasksID.add(deletedItem.id)
 
             if (direction == ItemTouchHelper.RIGHT) {
                 viewModel.deleteTask(adapter.getItemModel(position))
@@ -240,6 +241,7 @@ class MainFragment : Fragment(),
 
                 snackbar.setAction("بازگردانی!") {
                     viewModel.restoreTask(deletedItem)
+                    deletedTasksID.remove(deletedItem.id)
                 }
                 snackbar.setActionTextColor(Color.YELLOW)
                 ViewCompat.setLayoutDirection(snackbar.view, ViewCompat.LAYOUT_DIRECTION_RTL)
@@ -256,12 +258,14 @@ class MainFragment : Fragment(),
     }
 
     override fun onPause() {
-        super.onPause()
+        viewModel.clearSubTasksOfDeletedTask(deletedTasksID)
         motionProgress = binding.mainRoot.progress
         if (isAddTaskOpen) {
             setAddTaskVisibility.value = false
             isAddTaskOpen = false
         }
+        super.onPause()
+
     }
 
     private val startForImage =

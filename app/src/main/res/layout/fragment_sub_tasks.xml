@@ -1,18 +1,25 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:tools="http://schemas.android.com/tools"
-    xmlns:android="http://schemas.android.com/apk/res/android">
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
 
     <data>
 
+        <variable
+            name="viewModel"
+            type="m.derakhshan.done.tasks.subTasks.SubTaskViewModel" />
+
     </data>
 
-    <LinearLayout
+
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:layoutDirection="rtl"
         android:orientation="vertical">
 
         <RelativeLayout
+            android:id="@+id/top_navbar"
             android:layout_width="match_parent"
             android:layout_height="45dp"
             android:background="@color/dark_blue">
@@ -25,13 +32,16 @@
                 android:textAppearance="@style/vazirFont"
                 android:textColor="@color/white"
                 android:textSize="20sp" />
+
             <LinearLayout
-                android:padding="10dp"
-                android:background="@drawable/circular_ripple_back"
                 android:id="@+id/back"
-                android:layout_centerVertical="true"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:background="@drawable/circular_ripple_back"
+                android:layoutDirection="ltr"
+                android:padding="10dp">
+
                 <ImageView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -42,10 +52,160 @@
 
         </RelativeLayout>
 
-        <com.aminography.primedatepicker.monthview.PrimeMonthView
-            android:id="@+id/calendar"
+        <LinearLayout
+            android:id="@+id/date_holder"
             android:layout_width="match_parent"
-            android:layout_height="250dp" />
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/top_navbar"
+            android:background="@color/white"
+            android:elevation="5dp"
+            android:orientation="vertical">
 
-    </LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/month"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="5dp"
+                    android:layout_weight="0.5"
+                    android:text="@={viewModel.month}"
+                    android:textAppearance="@style/vazirFont" />
+
+                <TextView
+                    android:id="@+id/year"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="5dp"
+                    android:layout_weight="0.5"
+                    android:gravity="end"
+                    android:text="@={viewModel.year}"
+                    android:textAppearance="@style/vazirFont" />
+            </LinearLayout>
+
+
+            <m.derakhshan.done.canvas.DrawDate
+                android:id="@+id/top_dates"
+                android:layout_width="match_parent"
+                android:layout_height="45dp"
+                app:normalDateColor="@color/light_gray"
+                app:selectedDateColor="@color/green500" />
+
+
+        </LinearLayout>
+
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/date_holder"
+            android:layout_marginTop="10dp"
+            android:overScrollMode="never">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:orientation="horizontal"
+                    android:padding="10dp">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/subject"
+                        android:textAppearance="@style/vazirFont" />
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="2dp"
+                        android:layout_marginStart="10dp"
+                        android:layout_weight="1"
+                        android:alpha="0.5"
+                        android:background="@color/light_gray" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="10dp"
+                    android:background="@drawable/rounded_corner_card_view"
+                    android:backgroundTint="@color/alpha_light_blue"
+                    android:padding="10dp">
+
+                    <EditText
+                        android:id="@+id/task_subject"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:background="@color/transparent"
+                        android:inputType="textMultiLine"
+                        android:text="@={viewModel.title}"
+                        android:textAppearance="@style/vazirFont"
+                        tools:ignore="Autofill,LabelFor" />
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:alpha="0.5"
+                        android:rotation="270"
+                        android:src="@drawable/ic_edit"
+                        tools:ignore="ContentDescription" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:orientation="horizontal"
+                    android:padding="10dp">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/subTasks"
+                        android:textAppearance="@style/vazirFont" />
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="2dp"
+                        android:layout_marginStart="10dp"
+                        android:layout_weight="1"
+                        android:alpha="0.5"
+                        android:background="@color/light_gray" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="10dp"
+                    android:background="@drawable/rounded_corner_card_view"
+                    android:backgroundTint="@color/alpha_light_blue"
+                    android:padding="10dp">
+
+                    <EditText
+                        android:id="@+id/sub_tasks"
+                        android:layout_width="match_parent"
+                        android:layout_height="200dp"
+                        android:background="@color/transparent"
+                        android:gravity="top|start"
+                        android:hint="@string/sub_task_hint"
+                        android:inputType="textMultiLine"
+                        android:maxLength="500"
+                        android:maxLines="10"
+                        android:textAppearance="@style/vazirFont"
+                        tools:ignore="Autofill,LabelFor" />
+                </LinearLayout>
+            </LinearLayout>
+        </ScrollView>
+    </RelativeLayout>
+
+
 </layout>

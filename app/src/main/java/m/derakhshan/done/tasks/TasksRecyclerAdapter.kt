@@ -25,12 +25,15 @@ class TasksRecyclerAdapter(private val today: PersianCalendar) :
 
         override fun areContentsTheSame(oldItem: TasksList, newItem: TasksList): Boolean {
             return if ((oldItem is TaskItem) && (newItem is TaskItem))
-                (oldItem.task.id == newItem.task.id) && (oldItem.task.status == newItem.task.status)
+                (oldItem.task.id == newItem.task.id)
+                        && (oldItem.task.status == newItem.task.status)
+                        && (oldItem.task.taskName == newItem.task.taskName)
             else newItem == oldItem
         }
     }
     ) {
 
+    lateinit var clickListener: TaskClickListener
     fun getItemModel(position: Int): TaskItem = (getItem(position) as TaskItem)
 
     override fun getItemViewType(position: Int): Int {
@@ -77,9 +80,14 @@ class TasksRecyclerAdapter(private val today: PersianCalendar) :
 
             taskView?.let { myView ->
                 val model = taskModel.task
+
+                //-------------------------(adding click listener for going to subTasks)-----------------------//
+                myView.frameRoot.setOnClickListener {
+                    clickListener.onTaskClick(model)
+                }
+
                 myView.taskName.text = model.taskName
                 myView.frameRoot.alpha = if (model.status == TaskStatus.DONE) 0.3F else 1F
-
 
                 myView.taskName.setTextColor(
                     ContextCompat.getColor(

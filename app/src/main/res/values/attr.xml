@@ -18,4 +18,12 @@
         <attr name="fourthColor" format="color" />
     </declare-styleable>
 
+    <declare-styleable name="subTaskDate">
+        <attr name="selectedDateColor" format="color" />
+        <attr name="normalDateColor" format="color" />
+        <attr name="textColor" format="color" />
+        <attr name="dateTextSize" format="dimension" />
+        <attr name="taskDate" format="integer" />
+    </declare-styleable>
+
 </resources>

@@ -12,6 +12,7 @@ import m.derakhshan.done.database.models.TaskStatus
 import m.derakhshan.done.database.models.TasksModel
 import java.util.*
 import javax.inject.Inject
+import kotlin.collections.ArrayList
 import kotlin.collections.HashMap
 
 @HiltViewModel
@@ -90,6 +91,12 @@ class MainViewModel @Inject constructor(private val database: TasksDatabase) : V
         this.checkGreeting = false
     }
 
+    fun clearSubTasksOfDeletedTask(items: ArrayList<Int>) {
+        viewModelScope.launch(Dispatchers.Default) {
+            for (item in items)
+                database.subTasksDAO.deleteAllSubTasks(item)
+        }
+    }
 
     override fun onCleared() {
         super.onCleared()

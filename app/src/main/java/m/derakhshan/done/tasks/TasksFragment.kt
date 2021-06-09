@@ -2,6 +2,7 @@ package m.derakhshan.done.tasks
 
 import android.graphics.Color
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -10,6 +11,7 @@ import androidx.core.view.ViewCompat
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -26,7 +28,7 @@ import javax.inject.Inject
 
 @AndroidEntryPoint
 class TasksFragment : Fragment(),
-    RecyclerItemTouchHelper.RecyclerItemTouchHelperListener {
+    RecyclerItemTouchHelper.RecyclerItemTouchHelperListener, TaskClickListener {
 
 
     //-------------------------(Injection)-----------------------//
@@ -44,6 +46,7 @@ class TasksFragment : Fragment(),
 
     //-------------------------(Global variables)-----------------------//
     private lateinit var binding: FragmentTasksBinding
+    private val deletedTasksID = ArrayList<Int>()
 
 
     companion object {
@@ -67,6 +70,7 @@ class TasksFragment : Fragment(),
         val itemTouchHelperCallback: ItemTouchHelper.SimpleCallback =
             RecyclerItemTouchHelper(0, ItemTouchHelper.LEFT or ItemTouchHelper.RIGHT, this)
         ItemTouchHelper(itemTouchHelperCallback).attachToRecyclerView(binding.tasksRecyclerView)
+        adapter.clickListener = this
 
 
         //-------------------------(Set Binding Functions)-----------------------//
@@ -115,7 +119,7 @@ class TasksFragment : Fragment(),
     override fun onSwiped(viewHolder: RecyclerView.ViewHolder?, direction: Int, position: Int) {
         if (viewHolder is TasksRecyclerAdapter.ViewHolder) {
             val deletedItem: TasksModel = adapter.getItemModel(position).task
-
+            deletedTasksID.add(deletedItem.id)
             if (direction == ItemTouchHelper.RIGHT) {
                 viewModel.deleteTask(adapter.getItemModel(position).task)
                 utils.vibratePhone()
@@ -127,14 +131,28 @@ class TasksFragment : Fragment(),
 
                 snackbar.setAction("بازگردانی!") {
                     viewModel.restoreTask(deletedItem)
+                    deletedTasksID.remove(deletedItem.id)
                 }
                 snackbar.setActionTextColor(Color.YELLOW)
                 ViewCompat.setLayoutDirection(snackbar.view, ViewCompat.LAYOUT_DIRECTION_RTL)
                 snackbar.show()
+
+
             } else {
                 viewModel.updateStatus(deletedItem)
             }
         }
+    }
+
+    override fun onTaskClick(taskItem: TasksModel) {
+        val id = Bundle()
+        id.putInt("id", taskItem.id)
+        findNavController().navigate(R.id.action_tasksFragment_to_subTasksFragment, id)
+    }
+
+    override fun onPause() {
+        viewModel.clearSubTasksOfDeletedTask(deletedTasksID)
+        super.onPause()
     }
 
 }

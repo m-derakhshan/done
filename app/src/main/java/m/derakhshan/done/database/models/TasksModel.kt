@@ -22,7 +22,6 @@ data class TasksModel(
 
     @ColumnInfo
     val status: TaskStatus,
-
 )
 
 

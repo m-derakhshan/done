@@ -13,7 +13,6 @@ import m.derakhshan.done.R
 import m.derakhshan.done.database.models.TaskStatus
 import m.derakhshan.done.database.models.TasksModel
 import m.derakhshan.done.databinding.TasksItemModelBinding
-import m.derakhshan.done.tasks.TaskItem
 
 
 class TodayTaskRecyclerAdapter(private val today: PersianCalendar) :

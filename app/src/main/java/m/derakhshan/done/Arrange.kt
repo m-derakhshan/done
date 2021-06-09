@@ -1,5 +1,7 @@
 package m.derakhshan.done
 
+import android.util.Log
+
 class Arrange {
 
     fun persianConverter(number: String?): String {
@@ -22,6 +24,21 @@ class Arrange {
             }
 
         return result
+    }
+
+    fun getMonthName(id: Int) = when (id) {
+        1 -> "فروردین"
+        2 -> "اردیبهشت"
+        3 -> "خرداد"
+        4 -> "تیر"
+        5 -> "مرداد"
+        6 -> "شهریور"
+        7 -> "مهر"
+        8 -> "آبان"
+        9 -> "آذر"
+        10 -> "دی"
+        11 -> "بهمن"
+        else -> "اسفند"
     }
 
 
@@ -58,14 +75,19 @@ class Arrange {
 
 
     fun generateID(date: String, time: String): Int {
+
         val resultDate = date.split("/")
         val resultTime = time.split(":")
-        if (resultTime[0].length < 2)
-            "0${resultTime[0]}"
-        return ("${(resultDate[0].toInt() % 100)}${resultDate[1]}${resultDate[2]}" +
-                (if (resultTime[0].length < 2) "0" + resultTime[0] else resultTime[0]) +
-                (if (resultTime[1].length < 2) "0" + resultTime[1] else resultTime[1]) +
-                if (resultTime[2].length < 2) "0" + resultTime[2] else resultTime[2]).toInt()
+
+        val result =
+            persianConverter(
+                ("${(resultDate[0].toInt() % 100)}${resultDate[1]}${resultDate[2]}" +
+                        (if (resultTime[0].length < 2) "0" + resultTime[0] else resultTime[0]) +
+                        (if (resultTime[1].length < 2) "0" + resultTime[1] else resultTime[1]) +
+                        if (resultTime[2].length < 2) "0" + resultTime[2] else resultTime[2])
+            ).toInt()
+        Log.i("Log", "result is $result")
+        return result
 
     }
 

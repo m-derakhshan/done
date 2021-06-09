@@ -18,6 +18,14 @@ interface TasksDAO {
         status: TaskStatus = TaskStatus.IN_PROGRESS
     ): LiveData<List<TasksModel>>
 
+    @Query("SELECT * FROM Tasks WHERE id = :id")
+    fun getTask(
+        id: Int
+    ): TasksModel
+
+    @Query("UPDATE Tasks SET taskName=:taskName WHERE id = :id")
+    fun updateTaskTitle(taskName: String, id: Int)
+
     @Query("SELECT * FROM Tasks order by status DESC , id ASC")
     fun getAllTasks(): LiveData<List<TasksModel>>
 
