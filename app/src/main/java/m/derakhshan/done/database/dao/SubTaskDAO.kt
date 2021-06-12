@@ -10,12 +10,12 @@ import m.derakhshan.done.database.models.SubTasksModel
 interface SubTaskDAO {
 
     @Query("SELECT * FROM SubTasks WHERE taskID=:taskID")
-    fun getSubTasks(taskID: Int): List<SubTasksModel>
+    fun getSubTasks(taskID: Long): List<SubTasksModel>
 
     @Insert
     fun addSubTask(subTasksModel: ArrayList<SubTasksModel>)
 
     @Query("DELETE FROM SubTasks WHERE taskID=:tasksID")
-    fun deleteAllSubTasks(tasksID: Int)
+    fun deleteAllSubTasks(tasksID: Long)
 
 }

@@ -5,10 +5,10 @@ import androidx.lifecycle.ViewModelProvider
 import m.derakhshan.done.database.TasksDatabase
 
 
-class SubTaskViewModelFactory(private val taskID: Int, val database: TasksDatabase) :
+class SubTaskViewModelFactory(private val taskID: Long, val database: TasksDatabase) :
     ViewModelProvider.Factory {
     override fun <T : ViewModel?> create(modelClass: Class<T>): T {
-        return modelClass.getConstructor(Int::class.java, TasksDatabase::class.java)
+        return modelClass.getConstructor(Long::class.java, TasksDatabase::class.java)
             .newInstance(taskID, database)
     }
 }

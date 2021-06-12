@@ -3,6 +3,9 @@ plugins {
     id 'kotlin-android'
     id 'kotlin-kapt'
     id 'dagger.hilt.android.plugin'
+    id 'com.google.gms.google-services'
+    id 'com.google.firebase.crashlytics'
+    id 'com.google.firebase.firebase-perf'
 }
 
 
@@ -18,8 +21,8 @@ android {
         applicationId "m.derakhshan.done"
         minSdkVersion 21
         targetSdkVersion 30
-        versionCode 3
-        versionName "1.0"
+        versionCode 4
+        versionName "1.1"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
@@ -119,11 +122,30 @@ dependencies {
     implementation 'com.github.florent37:expansionpanel:1.2.4'
 }
 
+
+
+
+//----------------------------firebase------------------------
+
 dependencies {
+    // Import the Firebase BoM
+    implementation platform('com.google.firebase:firebase-bom:28.1.0')
+    implementation 'com.google.firebase:firebase-messaging:22.0.0'
+    implementation 'com.google.firebase:firebase-perf:20.0.1'
+    implementation 'com.google.firebase:firebase-crashlytics:18.0.1'
+    implementation 'com.google.firebase:firebase-analytics:19.0.0'
+
+}
+
+//--------------------------------Lottie animation for done motion
+dependencies {
+
+
 
     def lottieVersion = "3.7.0"
     implementation "com.airbnb.android:lottie:$lottieVersion"
 }
+
 
 kapt {
     correctErrorTypes true

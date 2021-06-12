@@ -39,7 +39,6 @@ import m.derakhshan.done.database.models.TasksModel
 import m.derakhshan.done.databinding.FragmentMainBinding
 import m.derakhshan.done.main.today_tasks.RecyclerItemTouchHelper
 import m.derakhshan.done.main.today_tasks.TodayTaskRecyclerAdapter
-
 import java.util.*
 import javax.inject.Inject
 import kotlin.collections.ArrayList
@@ -76,7 +75,8 @@ class MainFragment : Fragment(),
 
     //-------------------------(Global variables)-----------------------//
     private lateinit var binding: FragmentMainBinding
-    private val deletedTasksID = ArrayList<Int>()
+    private val deletedTasksID = ArrayList<Long>()
+    private val recyclerInfo = ArrayList<TasksModel>()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -230,6 +230,7 @@ class MainFragment : Fragment(),
             deletedTasksID.add(deletedItem.id)
 
             if (direction == ItemTouchHelper.RIGHT) {
+
                 viewModel.deleteTask(adapter.getItemModel(position))
                 utils.vibratePhone()
 

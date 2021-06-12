@@ -26,6 +26,8 @@
     <string name="dear_user">کاربر گرامی</string>
     <string name="editSubTasks">ویرایش زیر کار ها</string>
     <string name="subject">عنوان کار</string>
+
     <string name="subTasks">زیر کار ها</string>
     <string name="sub_task_hint">هر زیر کار را در یک خط وارد نمایید...</string>
+    <string name="add_note_for_task">برای این کار یادداشتی در ذهن دارید؟</string>
 </resources>

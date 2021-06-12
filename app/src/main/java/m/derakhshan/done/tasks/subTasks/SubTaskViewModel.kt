@@ -13,7 +13,7 @@ import m.derakhshan.done.database.TasksDatabase
 import m.derakhshan.done.database.models.SubTasksModel
 import m.derakhshan.done.database.models.TasksModel
 
-class SubTaskViewModel(private val taskID: Int, val database: TasksDatabase) : ViewModel() {
+class SubTaskViewModel(private val taskID: Long, val database: TasksDatabase) : ViewModel() {
 
     private lateinit var task: TasksModel
     private val day = MutableLiveData<String>()
@@ -23,14 +23,11 @@ class SubTaskViewModel(private val taskID: Int, val database: TasksDatabase) : V
     val year = MutableLiveData<String>()
     val subTasks = MutableLiveData<List<SubTasksModel>>()
 
-    private val _taskUpdated = MutableLiveData<Boolean>()
-    val taskUpdated: LiveData<Boolean>
-        get() = _taskUpdated
-
 
     init {
         viewModelScope.launch(Dispatchers.Default) {
             task = database.tasksDAO.getTask(taskID)
+            Log.i("Log", "task is $task")
             title.postValue(task.taskName)
             val date = task.date.keys.first().toString().split("/")
             day.postValue(date[2])

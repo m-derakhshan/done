@@ -170,7 +170,7 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="@string/subTasks"
+                        android:text="@string/note_description"
                         android:textAppearance="@style/vazirFont" />
 
                     <LinearLayout
@@ -196,7 +196,7 @@
                         android:layout_height="200dp"
                         android:background="@color/transparent"
                         android:gravity="top|start"
-                        android:hint="@string/sub_task_hint"
+                        android:hint="@string/add_note_for_task"
                         android:inputType="textMultiLine"
                         android:maxLength="500"
                         android:maxLines="10"

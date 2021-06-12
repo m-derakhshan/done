@@ -2,7 +2,6 @@ package m.derakhshan.done.tasks
 
 import android.graphics.Color
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -46,7 +45,7 @@ class TasksFragment : Fragment(),
 
     //-------------------------(Global variables)-----------------------//
     private lateinit var binding: FragmentTasksBinding
-    private val deletedTasksID = ArrayList<Int>()
+    private val deletedTasksID = ArrayList<Long>()
 
 
     companion object {
@@ -146,7 +145,7 @@ class TasksFragment : Fragment(),
 
     override fun onTaskClick(taskItem: TasksModel) {
         val id = Bundle()
-        id.putInt("id", taskItem.id)
+        id.putLong("id", taskItem.id)
         findNavController().navigate(R.id.action_tasksFragment_to_subTasksFragment, id)
     }
 

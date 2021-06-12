@@ -9,7 +9,7 @@ import androidx.room.PrimaryKey
 data class TasksModel(
     @PrimaryKey
     @ColumnInfo
-    val id: Int,
+    val id: Long,
 
     @ColumnInfo
     val taskName: String,
@@ -21,7 +21,7 @@ data class TasksModel(
     val time: String?,
 
     @ColumnInfo
-    val status: TaskStatus,
+    val status: TaskStatus
 )
 
 

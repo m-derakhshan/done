@@ -114,7 +114,7 @@ class RecyclerItemTouchHelper(
                 )
             )
 
-            deleteAnimation.progress = if (mainLayout!!.alpha < 1F) (1F + dX / 1000) else -dX / 1500
+            deleteAnimation.progress = if (mainLayout!!.alpha < 1F) (1F + dX / 800) else -dX / 1300
 
         }
 

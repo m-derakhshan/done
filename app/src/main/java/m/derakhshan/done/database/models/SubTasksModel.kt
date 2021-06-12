@@ -9,10 +9,10 @@ data class SubTasksModel(
 
     @PrimaryKey
     @ColumnInfo
-    val id: Int,
+    val id: Long,
 
     @ColumnInfo
-    val taskID: Int,
+    val taskID: Long,
 
     @ColumnInfo
     val subTask: String

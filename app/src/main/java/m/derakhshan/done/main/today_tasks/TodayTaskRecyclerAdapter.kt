@@ -18,21 +18,25 @@ import m.derakhshan.done.databinding.TasksItemModelBinding
 class TodayTaskRecyclerAdapter(private val today: PersianCalendar) :
     ListAdapter<TasksModel, TodayTaskRecyclerAdapter.ViewHolder>
         (object : DiffUtil.ItemCallback<TasksModel>() {
-        override fun areItemsTheSame(oldItem: TasksModel, newItem: TasksModel): Boolean {
+        override fun areItemsTheSame(
+            oldItem: TasksModel,
+            newItem: TasksModel
+        ): Boolean {
             return oldItem.id == newItem.id
         }
 
-        override fun areContentsTheSame(oldItem: TasksModel, newItem: TasksModel): Boolean {
-            return (oldItem.id == newItem.id) && (oldItem.status == newItem.status)
+        override fun areContentsTheSame(
+            oldItem: TasksModel,
+            newItem: TasksModel
+        ): Boolean {
+            return (oldItem.id == newItem.id) &&
+                    (oldItem.status == newItem.status)
         }
     }
     ) {
 
 
     fun getItemModel(position: Int): TasksModel = getItem(position)
-
-
-
 
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
@@ -51,12 +55,14 @@ class TodayTaskRecyclerAdapter(private val today: PersianCalendar) :
     }
 
 
+
     inner class ViewHolder(
         private val myView: TasksItemModelBinding
     ) :
         RecyclerView.ViewHolder(myView.root) {
 
         fun bind(model: TasksModel) {
+
 
             myView.taskName.text = model.taskName
 
@@ -71,11 +77,13 @@ class TodayTaskRecyclerAdapter(private val today: PersianCalendar) :
             myView.taskName.setTextColor(
                 ContextCompat.getColor(
                     itemView.context,
-                    if (model.date.keys.first() < today.shortDateString && model.status == TaskStatus.IN_PROGRESS) R.color.red else R.color.black
+                    if (model.date.keys.first() < today.shortDateString &&
+                        model.status == TaskStatus.IN_PROGRESS
+                    ) R.color.red
+                    else R.color.black
                 )
             )
         }
-
 
     }
 }

@@ -1,7 +1,6 @@
 package m.derakhshan.done.tasks.subTasks
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -39,7 +38,7 @@ class SubTasksFragment : Fragment() {
 
         //-------------------------(init variables)-----------------------//
 
-        val taskID = arguments?.getInt("id")!!
+        val taskID = arguments?.getLong("id")!!
         val factory = SubTaskViewModelFactory(taskID = taskID, database = database)
         viewModel = ViewModelProvider(this, factory).get(SubTaskViewModel::class.java)
         binding.viewModel = viewModel
@@ -56,7 +55,6 @@ class SubTasksFragment : Fragment() {
         viewModel.subTasks.observe(viewLifecycleOwner, {
             it?.let { tasksList ->
                 var subTasks = ""
-                Log.i("Log", "tasksList $tasksList")
                 for (task in tasksList)
                     subTasks = subTasks + task.subTask + "\n"
                 binding.subTasks.setText(subTasks.trim())
