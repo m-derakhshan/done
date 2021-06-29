@@ -18,7 +18,7 @@ class DrawDate(context: Context?, attrs: AttributeSet?) : View(context, attrs) {
         get() = field + 5
 
 
-    private var size = 20F
+    private var size = 15F
     private val paint = Paint(Paint.ANTI_ALIAS_FLAG)
     private val textAppearance = Paint(Paint.ANTI_ALIAS_FLAG)
     private val arrange = Arrange()

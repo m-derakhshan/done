@@ -9,6 +9,15 @@
         android:id="@+id/mainFragment"
         android:name="m.derakhshan.done.main.MainFragment"
         android:label="MainFragment"
-        tools:layout="@layout/fragment_main"/>
+        tools:layout="@layout/fragment_main">
+        <action
+            android:id="@+id/action_mainFragment_to_subTasksFragment"
+            app:destination="@id/subTasksFragment" />
+    </fragment>
+    <fragment
+        tools:layout="@layout/fragment_sub_tasks"
+        android:id="@+id/subTasksFragment"
+        android:name="m.derakhshan.done.tasks.subTasks.SubTasksFragment"
+        android:label="SubTasksFragment" />
 
 </navigation>

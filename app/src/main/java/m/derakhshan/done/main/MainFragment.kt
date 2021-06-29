@@ -17,6 +17,7 @@ import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.MutableLiveData
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -39,6 +40,7 @@ import m.derakhshan.done.database.models.TasksModel
 import m.derakhshan.done.databinding.FragmentMainBinding
 import m.derakhshan.done.main.today_tasks.RecyclerItemTouchHelper
 import m.derakhshan.done.main.today_tasks.TodayTaskRecyclerAdapter
+import m.derakhshan.done.tasks.TaskClickListener
 import java.util.*
 import javax.inject.Inject
 import kotlin.collections.ArrayList
@@ -47,7 +49,7 @@ import kotlin.collections.HashMap
 
 @AndroidEntryPoint
 class MainFragment : Fragment(),
-    RecyclerItemTouchHelper.RecyclerItemTouchHelperListener {
+    RecyclerItemTouchHelper.RecyclerItemTouchHelperListener, TaskClickListener {
 
     companion object {
         var motionProgress = 0F
@@ -76,7 +78,6 @@ class MainFragment : Fragment(),
     //-------------------------(Global variables)-----------------------//
     private lateinit var binding: FragmentMainBinding
     private val deletedTasksID = ArrayList<Long>()
-    private val recyclerInfo = ArrayList<TasksModel>()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -92,6 +93,7 @@ class MainFragment : Fragment(),
         //-------------------------(init variables)-----------------------//
         val taskDate = ArrayList<PersianCalendar>()
         taskDate.add(PersianCalendar())
+        adapter.clickListener = this
 
 
         val swipeLeft: ItemTouchHelper.SimpleCallback =
@@ -278,6 +280,12 @@ class MainFragment : Fragment(),
                 }
             }
         }
+
+    override fun onTaskClick(taskItem: TasksModel) {
+        val id = Bundle()
+        id.putLong("id", taskItem.id)
+        findNavController().navigate(R.id.action_mainFragment_to_subTasksFragment, id)
+    }
 
 }
 

@@ -13,6 +13,7 @@ import m.derakhshan.done.R
 import m.derakhshan.done.database.models.TaskStatus
 import m.derakhshan.done.database.models.TasksModel
 import m.derakhshan.done.databinding.TasksItemModelBinding
+import m.derakhshan.done.tasks.TaskClickListener
 
 
 class TodayTaskRecyclerAdapter(private val today: PersianCalendar) :
@@ -35,6 +36,7 @@ class TodayTaskRecyclerAdapter(private val today: PersianCalendar) :
     }
     ) {
 
+    lateinit var clickListener: TaskClickListener
 
     fun getItemModel(position: Int): TasksModel = getItem(position)
 
@@ -62,7 +64,10 @@ class TodayTaskRecyclerAdapter(private val today: PersianCalendar) :
         RecyclerView.ViewHolder(myView.root) {
 
         fun bind(model: TasksModel) {
-
+            //-------------------------(adding click listener for going to subTasks)-----------------------//
+            myView.frameRoot.setOnClickListener {
+                clickListener.onTaskClick(model)
+            }
 
             myView.taskName.text = model.taskName
 
