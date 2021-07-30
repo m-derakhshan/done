@@ -32,6 +32,9 @@ interface TasksDAO {
     @Query("UPDATE Tasks SET status = :status WHERE id = :id")
     fun updateStatus(status: TaskStatus, id: Long)
 
+    @Query("UPDATE Tasks SET reminder = :reminder WHERE id = :id")
+    fun updateReminder(reminder: String, id: Long)
+
     @Delete
     fun delete(task: TasksModel)
 

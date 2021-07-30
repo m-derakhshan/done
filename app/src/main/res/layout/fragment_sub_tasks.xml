@@ -24,6 +24,27 @@
             android:layout_height="45dp"
             android:background="@color/dark_blue">
 
+            <LinearLayout
+                android:id="@+id/add_reminder"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:layout_centerVertical="true"
+                android:background="@drawable/circular_ripple_back"
+                android:layoutDirection="ltr"
+                android:padding="10dp">
+
+                <ImageView
+                    android:id="@+id/reminder_icon"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/ic_bell_ring"
+                    app:tint="@color/white"
+                    tools:ignore="ContentDescription" />
+
+            </LinearLayout>
+
+
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
@@ -57,11 +78,11 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@+id/top_navbar"
-            android:background="@color/white"
-            android:elevation="5dp"
+            android:background="@color/light_blue"
             android:orientation="vertical">
 
             <LinearLayout
+                android:layout_marginBottom="8dp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal">
@@ -72,7 +93,7 @@
                     android:layout_height="wrap_content"
                     android:layout_margin="5dp"
                     android:layout_weight="0.5"
-                    android:text="@={viewModel.month}"
+                    android:text="@={viewModel.dayOfWeek}"
                     android:textAppearance="@style/vazirFont" />
 
                 <TextView
@@ -82,17 +103,25 @@
                     android:layout_margin="5dp"
                     android:layout_weight="0.5"
                     android:gravity="end"
-                    android:text="@={viewModel.year}"
+                    android:text="@={viewModel.fullDate}"
                     android:textAppearance="@style/vazirFont" />
             </LinearLayout>
 
-
-            <m.derakhshan.done.canvas.DrawDate
-                android:id="@+id/top_dates"
+            <LinearLayout
+                android:layout_marginEnd="50dp"
+                android:layout_marginStart="50dp"
+                android:background="@color/blue"
                 android:layout_width="match_parent"
-                android:layout_height="45dp"
-                app:normalDateColor="@color/light_gray"
-                app:selectedDateColor="@color/green500" />
+                android:layout_height="1.5dp"/>
+            <TextView
+                android:layout_marginTop="8dp"
+                android:layout_marginBottom="10dp"
+                android:layout_marginStart="5dp"
+                android:id="@+id/reminder"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textAppearance="@style/vazirFont"
+                android:textColor="@color/black" />
 
 
         </LinearLayout>

@@ -1,10 +1,10 @@
 package m.derakhshan.done.tasks.subTasks
 
-import android.util.Log
-import androidx.lifecycle.LiveData
+
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.aminography.primecalendar.persian.PersianCalendar
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.async
 import kotlinx.coroutines.launch
@@ -12,32 +12,42 @@ import m.derakhshan.done.Arrange
 import m.derakhshan.done.database.TasksDatabase
 import m.derakhshan.done.database.models.SubTasksModel
 import m.derakhshan.done.database.models.TasksModel
+import m.derakhshan.done.tasks.subTasks.alarm.AlarmService
 
-class SubTaskViewModel(private val taskID: Long, val database: TasksDatabase) : ViewModel() {
+
+class SubTaskViewModel(
+    private val taskID: Long,
+    val database: TasksDatabase,
+    private val alarmService: AlarmService
+) : ViewModel() {
 
     private lateinit var task: TasksModel
-    private val day = MutableLiveData<String>()
+
 
     val title = MutableLiveData<String>()
-    val month = MutableLiveData<String>()
-    val year = MutableLiveData<String>()
+    val dayOfWeek = MutableLiveData<String>()
+    val fullDate = MutableLiveData<String>()
     val subTasks = MutableLiveData<List<SubTasksModel>>()
+    val reminder = MutableLiveData<String>()
 
+    private lateinit var persianDateArray: List<String>
 
     init {
         viewModelScope.launch(Dispatchers.Default) {
+
             task = database.tasksDAO.getTask(taskID)
-            Log.i("Log", "task is $task")
+
+            reminder.postValue(task.reminder ?: "")
             title.postValue(task.taskName)
-            val date = task.date.keys.first().toString().split("/")
-            day.postValue(date[2])
-            month.postValue(Arrange().getMonthName(date[1].toInt()))
-            year.postValue(Arrange().persianConverter(date[0]))
+            persianDateArray = task.date.keys.first().toString().split("/")
+
+            dayOfWeek.postValue(task.date.values.first())
+            fullDate.postValue(Arrange().persianConverter(task.date.keys.first().toString()))
+
             subTasks.postValue(database.subTasksDAO.getSubTasks(taskID))
         }
     }
 
-    fun setDay(): LiveData<String> = day
 
     fun endOfFragmentLifeCycle(taskName: String, subTasks: String) {
         viewModelScope.launch(Dispatchers.Default) {
@@ -69,5 +79,38 @@ class SubTaskViewModel(private val taskID: Long, val database: TasksDatabase) : 
         database.subTasksDAO.deleteAllSubTasks(taskID)
         if (tasks.isNotEmpty())
             database.subTasksDAO.addSubTask(tasks)
+    }
+
+    fun deleteReminder() = viewModelScope.launch(Dispatchers.Default) {
+        reminder.postValue("")
+        database.tasksDAO.updateReminder("", taskID)
+        alarmService.cancelAlarm(reqCode = taskID, msg = task.taskName, title = "یادآوری انجام کار")
+    }
+
+
+    fun setAlarm(hour: String, minute: String) {
+
+        val myDate = PersianCalendar()
+        myDate.timeInMillis = System.currentTimeMillis()
+        myDate.clear()
+        myDate.set(
+            year = persianDateArray[0].toInt(),
+            month = persianDateArray[1].toInt() - 1,
+            dayOfMonth = persianDateArray[2].toInt(),
+            hourOfDay = hour.toInt(),
+            minute = minute.toInt()
+        )
+
+        alarmService.setAlarm(
+            timeInMillisecond = myDate.timeInMillis,
+            title = "یادآوری انجام کار",
+            msg = task.taskName,
+            reqCode = taskID
+        )
+        viewModelScope.launch(Dispatchers.Default) {
+            reminder.postValue("$hour:$minute")
+            database.tasksDAO.updateReminder("$hour:$minute", taskID)
+        }
+
     }
 }

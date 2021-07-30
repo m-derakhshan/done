@@ -21,6 +21,9 @@ data class TasksModel(
     val time: String?,
 
     @ColumnInfo
+    val reminder: String?,
+
+    @ColumnInfo
     val status: TaskStatus
 )
 

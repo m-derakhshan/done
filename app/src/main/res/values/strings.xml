@@ -30,4 +30,8 @@
     <string name="subTasks">زیر کار ها</string>
     <string name="sub_task_hint">هر زیر کار را در یک خط وارد نمایید...</string>
     <string name="add_note_for_task">برای این کار یادداشتی در ذهن دارید؟</string>
+    <string name="add_reminder">تنظیم یادآور</string>
+    <string name="hour">ساعت</string>
+    <string name="minute">دقیقه</string>
+    <string name="add_reminder_for_task">درج یاد آور برای کار</string>
 </resources>

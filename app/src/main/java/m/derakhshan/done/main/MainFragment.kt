@@ -194,7 +194,8 @@ class MainFragment : Fragment(),
                                     },
                                     status = TaskStatus.IN_PROGRESS,
                                     time = time,
-                                    id = arrange.generateID(task.shortDateString, time)
+                                    id = arrange.generateID(task.shortDateString, time),
+                                    reminder = ""
                                 )
                             )
 

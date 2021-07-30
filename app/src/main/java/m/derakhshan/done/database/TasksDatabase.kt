@@ -13,7 +13,7 @@ import m.derakhshan.done.database.models.TasksModel
 
 @Database(
     entities = [TasksModel::class, SubTasksModel::class],
-    version = 4, exportSchema = false
+    version = 5, exportSchema = false
 )
 @TypeConverters(EnumConverters::class, HashMapConverter::class)
 abstract class TasksDatabase : RoomDatabase() {
