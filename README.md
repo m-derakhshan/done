@@ -7,7 +7,7 @@ This is my first todo list application which is going to publish on CafeBazaar
 The goal of the project is to provide a convenient but powerful todo application
 
 the application is published on the Iranian app store, Cafe Bazar:
-<a href="https://cafebazaar.ir/app/m.derakhshan.done"> Done Application </a>
+<a href="https://cafebazaar.ir/app/m.derakhshan.done?l=en"> Done Application </a>
 
 
 
