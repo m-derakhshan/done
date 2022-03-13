@@ -31,3 +31,6 @@ this project was developed using Kotlin language under licence of MIT.
  <p align="center">
  <img width="1000" height="250" src="https://uupload.ir/files/41v3_xl6f_all2.jpg">
  </p>
+
+# And here is done v2!
+<a href="https://github.com/m-derakhshan/DoneV2">https://github.com/m-derakhshan/DoneV2</a>
